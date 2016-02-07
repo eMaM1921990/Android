@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.project.graduation.R;
+import com.project.graduation.managers.DBHelper;
 import com.project.graduation.managers.userHandler;
 import com.project.graduation.model.users;
 
@@ -23,10 +24,11 @@ public class registration extends Activity {
     String userName;
     String userPassword;
     users dto=new users();
-
+    DBHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db=new DBHelper(getApplicationContext());
         setContentView(R.layout.activity_registration);
         username=(EditText)findViewById(R.id.userame);
         password=(EditText)findViewById(R.id.password);
@@ -39,9 +41,9 @@ public class registration extends Activity {
                 userPassword=password.getText().toString();
                 dto.setUserName(userName);
                 dto.setPassword(userPassword);
-                Log.d("return data",dto.getPassword());
-                dto=new userHandler().findByObject(dto);
-                Log.d("return data",Long.toString(dto.getId()));
+                db.InsertNewUser(dto);
+                db.closeDB();
+
 
             }
         });
