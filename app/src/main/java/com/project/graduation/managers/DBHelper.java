@@ -59,8 +59,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //USER TABLE
     private static final String USER_KEY_ID = "id";
-    private static final String USER_KEY_NAME = "id";
-    private static final String USER_KEY_PASSWORD = "id";
+    private static final String USER_KEY_NAME = "name";
+    private static final String USER_KEY_PASSWORD = "password";
+
+    private static final int USER_KEY_ID_INDEX = 0;
+    private static final int USER_KEY_NAME_INDEX = 1;
+    private static final int USER_KEY_PASSWORD_INDEX = 2;
+
     // Table Create Statements
     //CREATE DOCTOR
     private static final String CREATE_TABLE_DOCTOR = "CREATE TABLE "
@@ -126,14 +131,28 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    public boolean InsertNewUser(users dto){
+    public long InsertNewUser(users dto){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues param = new ContentValues();
         param.put(USER_KEY_NAME, dto.getUserName());
         param.put(USER_KEY_PASSWORD, dto.getPassword());
-        db.insert(CREATE_TABLE_USERS, null, param);
-        Log.d("new user add","new user");
-        return true;
+        long id=db.insert(USERS_TABLE, null, param);
+        closeDB();
+        return id;
+    }
+
+    public users Login(users dto){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res=db.rawQuery("select * FROM "+USERS_TABLE+" where " + USER_KEY_NAME + "=? and " + USER_KEY_PASSWORD + " =?", new String[]{dto.getUserName(), dto.getPassword()});
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            dto.setUserName(res.getString(USER_KEY_NAME_INDEX));
+            dto.setId(res.getInt(USER_KEY_ID_INDEX));
+            dto.setPassword(res.getString(USER_KEY_PASSWORD_INDEX));
+        }
+        closeDB();
+        return dto;
     }
 
     // closing database

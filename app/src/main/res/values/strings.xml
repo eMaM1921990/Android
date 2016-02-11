@@ -10,4 +10,8 @@
     <string name="registerinfo">Create new user</string>
     <string name="repassword">Re-password</string>
     <string name="createuser">Create</string>
+    <string name="success_create_user">Sucessfuly create user </string>
+    <string name="sucess">success </string>
+    <string name="error">Error </string>
+    <string name="login_failed">Invalid username or password !! </string>
 </resources>

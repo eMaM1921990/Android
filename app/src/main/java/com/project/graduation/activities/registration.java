@@ -1,6 +1,9 @@
 package com.project.graduation.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +28,9 @@ public class registration extends Activity {
     String userPassword;
     users dto=new users();
     DBHelper db;
+    ProgressDialog progress
+            ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +43,29 @@ public class registration extends Activity {
         creatUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 userName=username.getText().toString();
                 userPassword=password.getText().toString();
                 dto.setUserName(userName);
                 dto.setPassword(userPassword);
-                db.InsertNewUser(dto);
-                db.closeDB();
+                long id=db.InsertNewUser(dto);
+                if(id>0){
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                    builder.setMessage(R.string.success_create_user)
+                            .setTitle(R.string.sucess)
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    dialog.dismiss();
+                    Intent login=new Intent(registration.this,Login.class);
+                    startActivity(login);
+
+                }
+
+
 
 
             }
