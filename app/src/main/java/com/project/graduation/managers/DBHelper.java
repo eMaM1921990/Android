@@ -143,14 +143,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public users Login(users dto){
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res=db.rawQuery("select * FROM "+USERS_TABLE+" where " + USER_KEY_NAME + "=? and " + USER_KEY_PASSWORD + " =?", new String[]{dto.getUserName(), dto.getPassword()});
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor res=db.rawQuery("select * FROM "+USERS_TABLE+" where " + USER_KEY_NAME + "='"+dto.getUserName()+"' and " + USER_KEY_PASSWORD + "='"+dto.getPassword()+"'",null);
         res.moveToFirst();
-        while(res.isAfterLast() == false){
-            dto.setUserName(res.getString(USER_KEY_NAME_INDEX));
-            dto.setId(res.getInt(USER_KEY_ID_INDEX));
-            dto.setPassword(res.getString(USER_KEY_PASSWORD_INDEX));
+        if (res.moveToFirst()) {
+            while(res.moveToNext()){
+                dto.setUserName(res.getString(USER_KEY_NAME_INDEX));
+                dto.setId(res.getInt(USER_KEY_ID_INDEX));
+                dto.setPassword(res.getString(USER_KEY_PASSWORD_INDEX));
+            }
         }
+
         closeDB();
         return dto;
     }
