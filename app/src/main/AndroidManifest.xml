@@ -20,6 +20,10 @@
             android:name=".activities.registration"
             android:label="@string/title_activity_registration" >
         </activity>
+        <activity
+            android:name=".activities.Home"
+            android:label="@string/title_activity_home" >
+        </activity>
     </application>
 
 </manifest>

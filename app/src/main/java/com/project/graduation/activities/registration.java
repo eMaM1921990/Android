@@ -50,6 +50,7 @@ public class registration extends Activity {
                 dto.setUserName(userName);
                 dto.setPassword(userPassword);
                 long id=db.InsertNewUser(dto);
+//                db.closeDB();
                 if(id>0){
 
 

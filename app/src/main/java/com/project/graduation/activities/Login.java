@@ -40,8 +40,12 @@ public class Login extends AppCompatActivity {
                 dto.setPassword(userPassword);
                 dto.setUserName(userName);
                 users returnObj=db.Login(dto);
-                if(returnObj.getId()>0){
-                    Log.d("logged",dto.getUserName());
+                if(returnObj.getId()>-1){
+                    Log.d("logged", dto.getUserName());
+                    Intent homeActivity=new Intent(Login.this,Home.class);
+                    startActivity(homeActivity);
+
+
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                     builder.setMessage(R.string.login_failed)
