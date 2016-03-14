@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.project.graduation.model.users;
 
@@ -15,13 +16,13 @@ import com.project.graduation.model.users;
 public class DBHelper extends SQLiteOpenHelper {
 
     // Logcat tag
-    private static final String LOG = "DatabaseHelper";
+    public static final String LOG = "DatabaseHelper";
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "DiseaseManager";
+    public static final String DATABASE_NAME = "DiseaseManager";
 
     // Table Names
     private static String DOCTORS_TABLE="DOCTORS";
@@ -74,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_SYM_CAT = "CREATE TABLE "
             + SYMPTOMS__TABLE + "(" + SYM_CAT_KEY_ID + " INTEGER PRIMARY KEY," + SYM_CAT_KEY_NAME
-            + " TEXT)";
+            + " TEXT ,"+DIS_FORGIEN+" INTEGER)";
 
 
     private static final String CREATE_TABLE_DISEASE = "CREATE TABLE "
@@ -95,9 +96,9 @@ public class DBHelper extends SQLiteOpenHelper {
             + USERS_TABLE + "(" + USER_KEY_ID + " INTEGER PRIMARY KEY," + USER_KEY_NAME
             + " TEXT ,"+USER_KEY_PASSWORD+" TEXT)";
 
-    public DBHelper(Context context){
+    public DBHelper(Context context,String dbName, String x, int dbVersion){
 
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, dbName, null, dbVersion);
     }
 
 
@@ -260,21 +261,22 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public users Login(users dto){
-
+        users returnObj=new users();
         SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor res=db.rawQuery("select * FROM "+USERS_TABLE+" where " + USER_KEY_NAME + "='"+dto.getUserName()+"' and " + USER_KEY_PASSWORD + "='"+dto.getPassword()+"'",null);
-        res.moveToFirst();
-        if (res.moveToFirst()) {
-            while(res.moveToNext()){
-                dto.setUserName(res.getString(USER_KEY_NAME_INDEX));
-                dto.setId(res.getInt(USER_KEY_ID_INDEX));
-                dto.setPassword(res.getString(USER_KEY_PASSWORD_INDEX));
-            }
+        Cursor cursor=db.query(USERS_TABLE, null, USER_KEY_NAME+"=? and "+USER_KEY_PASSWORD+"=?", new String[]{dto.getUserName(),dto.getPassword()}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+            return returnObj;
         }
+        cursor.moveToFirst();
+        returnObj.setUserName(cursor.getString(USER_KEY_NAME_INDEX));
+        returnObj.setId(cursor.getInt(USER_KEY_ID_INDEX));
+        returnObj.setPassword(cursor.getString(USER_KEY_PASSWORD_INDEX));
+        cursor.close();
 
         closeDB();
-        return dto;
+        return returnObj;
     }
 
     // closing database

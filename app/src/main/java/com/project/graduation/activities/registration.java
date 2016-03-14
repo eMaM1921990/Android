@@ -34,7 +34,7 @@ public class registration extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db=new DBHelper(getApplicationContext());
+        db=new DBHelper(getApplicationContext(),db.DATABASE_NAME,null,db.DATABASE_VERSION);
         setContentView(R.layout.activity_registration);
         username=(EditText)findViewById(R.id.userame);
         password=(EditText)findViewById(R.id.password);

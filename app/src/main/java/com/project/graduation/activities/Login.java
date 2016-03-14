@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db=new DBHelper(getApplicationContext());
+        db=new DBHelper(getApplicationContext(),db.DATABASE_NAME,null,db.DATABASE_VERSION);
         setContentView(R.layout.activity_login);
         uname=(EditText)findViewById(R.id.uname);
         password=(EditText)findViewById(R.id.password);
@@ -40,8 +40,10 @@ public class Login extends AppCompatActivity {
                 dto.setPassword(userPassword);
                 dto.setUserName(userName);
                 users returnObj=db.Login(dto);
-                if(returnObj.getId()>-1){
+
+                if(returnObj.getId()>0){
                     Log.d("logged", dto.getUserName());
+                    Log.d("userid",Long.toString(dto.getId()));
                     Intent homeActivity=new Intent(Login.this,Home.class);
                     startActivity(homeActivity);
 
