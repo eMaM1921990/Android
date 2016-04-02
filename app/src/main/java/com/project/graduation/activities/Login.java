@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.project.graduation.R;
 import com.project.graduation.managers.DBHelper;
+import com.project.graduation.managers.DBSingleton;
 import com.project.graduation.model.users;
 
 public class Login extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db=new DBHelper(getApplicationContext(),db.DATABASE_NAME,null,db.DATABASE_VERSION);
+        db= DBSingleton.getDBInstance(getApplicationContext(), db.DATABASE_NAME, null, db.DATABASE_VERSION);
         setContentView(R.layout.activity_login);
         uname=(EditText)findViewById(R.id.uname);
         password=(EditText)findViewById(R.id.password);

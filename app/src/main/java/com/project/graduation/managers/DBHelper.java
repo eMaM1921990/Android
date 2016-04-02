@@ -7,7 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.project.graduation.model.SymptomsGategory;
 import com.project.graduation.model.users;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -99,8 +104,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context,String dbName, String x, int dbVersion){
 
         super(context, dbName, null, dbVersion);
+        pupulateAll();
     }
 
+    private void pupulateAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS "+DOCTORS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+SYMPTOMS__TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+DISEASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+DISEAS_SYMPTOMS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+DOCTOR_DISEASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+USERS_TABLE);
+        db.execSQL(CREATE_TABLE_DOCTOR);
+        db.execSQL(CREATE_TABLE_SYM_CAT);
+        db.execSQL(CREATE_TABLE_DISEASE);
+        db.execSQL(CREATE_TABLE_DIS_SYM);
+        db.execSQL(CREATE_TABLE_DIS_DOC);
+        db.execSQL(CREATE_TABLE_USERS);
+
+        init(db);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -111,7 +134,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DIS_DOC);
         db.execSQL(CREATE_TABLE_USERS);
 
-
+        init(db);
     }
 
     @Override
@@ -131,12 +154,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private void init(SQLiteDatabase db){
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(1,'حسام حسن ','','')");
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(2,'محمد ابو العزم  ','','')");
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(3,'محمد الحجاج  ','','')");
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(4,'عيادات الدكتور عبد الكريم   ','','')");
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(5,'الدكتور صالح المتطويع   ','','')");
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(6,'حازم ابراهيم    ','','')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(1,'Name 1', '121211','Address 1')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(2,'Name 2', '121212','Address 2')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(3,'Name 3', '121213','Address 3')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(4,'Name 4', '121214','Address 4')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(5,'Name 5', '121215','Address 5')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(6,'Name 6', '121216','Address 6')");
+
 
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (1,'High Blood Pressure (Hypertension)')");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (1,'Dizziness',1) ");
@@ -214,11 +238,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (14,'Smallpox')");
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (15,'Peptic ulcer (Stomach ulcer)')");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (16,'Asthma");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (17,'Urinary tract infection");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (18,'Arthritis");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (19,'Botulism");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (20,'Measles");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (16,'Asthma')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (17,'Urinary tract infection')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (18,'Arthritis')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (19,'Botulism')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (20,'Measles')");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (47,'a runny or blocked nose ',20) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (48,'sneezing ',20) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (49,'watery eyes ',20) ");
@@ -231,10 +255,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (56,'loss of appetite ',20) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (57,'tiredness, irritability and a general lack of energy ',20) ");
 
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (21,'Strep Throat");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (22,'Irritable bowel syndrome");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (23,'Autoimmune pancreatitis");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (24,'Celiac Disease");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (21,'Strep Throat')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (22,'Irritable bowel syndrome')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (23,'Autoimmune pancreatitis')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (24,'Celiac Disease')");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (58,'Headache ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (59,'Fatigue and weakness ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (60,'Joint pain ',24) ");
@@ -243,10 +267,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (63,'Skin rash ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (64,'Abdominal pain ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (65,'GERD and heartburn ',24) ");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (25,'Optic neuritis");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (26,'Palindromic Rheumatism");
-        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (27,'Polymyositis");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (25,'Optic neuritis')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (26,'Palindromic Rheumatism')");
+        db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (27,'Polymyositis')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (1,'1','1')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (2,'2','2')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (3,'3','3')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (4,'4','4')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (5,'5','5')");
+        db.execSQL("INSERT INTO "+DOCTOR_DISEASE_TABLE+" VALUES (6,'6','6')");
 
+        db.execSQL("INSERT INTO "+USERS_TABLE+" VALUES (1, '1', '1')");
     }
 
 
@@ -277,6 +308,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
         closeDB();
         return returnObj;
+    }
+
+    public List<SymptomsGategory> getAllSymptomsCategory(){
+        List<SymptomsGategory> allSymptoms = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] strings = {};
+        Cursor cursor=db.rawQuery("SELECT * FROM "+SYMPTOMS__TABLE, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String sym_name = cursor.getString(cursor.getColumnIndex(SYM_CAT_KEY_NAME));
+            int sym_id = cursor.getInt(cursor.getColumnIndex(SYM_CAT_KEY_ID));
+            SymptomsGategory symptomsGategory = new SymptomsGategory();
+            symptomsGategory.setId(sym_id);
+            symptomsGategory.setName(sym_name);
+            allSymptoms.add(symptomsGategory);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        closeDB();
+        return allSymptoms;
+    }
+
+    public String getLastActivityInfo(List<Integer> symptomsGategoryList) {
+        String text = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor, doctors, docInfo, disease;
+        HashMap<Integer, String> diseaseDoctor = new HashMap<>();
+        for(int i = 0; i < symptomsGategoryList.size(); i++) {
+            cursor=db.rawQuery("SELECT " + DIS_FORGIEN + " FROM " + SYMPTOMS__TABLE + " where " + SYM_CAT_KEY_ID + "=" + symptomsGategoryList.get(i), null);
+            cursor.moveToFirst();
+            int sym = cursor.getInt(cursor.getColumnIndex(DIS_FORGIEN));
+            disease=db.rawQuery("SELECT " + DIS_KEY_NAME + " FROM " + DISEASE_TABLE + " where " + DIS_KEY_ID + "=" + sym, null);
+            disease.moveToFirst();
+            if(!text.contains(disease.getString(disease.getColumnIndex(DIS_KEY_NAME)))) {
+                text += disease.getString(disease.getColumnIndex(DIS_KEY_NAME)) + "\nDOCTOR: \n";
+                while (!cursor.isAfterLast()) {
+                    int pars2 = sym;
+                    doctors = db.rawQuery("SELECT " + DOC_DIS_KEY_DOC_ID + " FROM " + DOCTOR_DISEASE_TABLE + " where " + DOC_DIS_KEY_DIS_ID + "=" + pars2, null);
+                    doctors.moveToFirst();
+                    int docId = doctors.getInt(doctors.getColumnIndex(DOC_DIS_KEY_DOC_ID));
+                    docInfo = db.rawQuery("SELECT * FROM " + DOCTORS_TABLE + " where " + DOC_KEY_ID + "=" + docId, null);
+                    docInfo.moveToFirst();
+                    String name = docInfo.getString(docInfo.getColumnIndex(DOC_KEY_NAME));
+                    String phone = docInfo.getString(docInfo.getColumnIndex(DOC_KEY_PHONE));
+                    String address = docInfo.getString(docInfo.getColumnIndex(DOC_KEY_ADDRESS));
+                    text += "NAME: " + name + "\n";
+                    text += "PHONE: " + phone + "\n";
+                    text += "ADDRESS: " + address + "\n\n";
+                    cursor.moveToNext();
+                }
+            }
+        }
+
+        return text;
     }
 
     // closing database

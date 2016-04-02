@@ -24,6 +24,10 @@
             android:name=".activities.Home"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity
+            android:name=".activities.DiseaseDoctor"
+            android:label="DiseaseDoctor" >
+        </activity>
     </application>
 
 </manifest>

@@ -15,4 +15,6 @@
     <string name="error">Error </string>
     <string name="login_failed">Invalid username or password !! </string>
     <string name="title_activity_home">Home</string>
+    <string name="list">list</string>
+    <string name="submit">submit</string>
 </resources>
