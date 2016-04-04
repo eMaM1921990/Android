@@ -131,7 +131,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     private void init(SQLiteDatabase db){
-        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(1,'حسام حسن ','','')");
+        db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(1, ','','')");
         db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(2,'محمد ابو العزم  ','','')");
         db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(3,'محمد الحجاج  ','','')");
         db.execSQL("INSERT INTO "+DOCTORS_TABLE+" VALUES(4,'عيادات الدكتور عبد الكريم   ','','')");
@@ -242,7 +242,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (62,'Osteoporosis due to decreased absorption of calcium and vitamin D ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (63,'Skin rash ',24) ");
         db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (64,'Abdominal pain ',24) ");
-        db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (65,'GERD and heartburn ',24) ");
+        db.execSQL("INSERT INTO "+ SYMPTOMS__TABLE+" VALUES (65,'2 ',24) ");
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (25,'Optic neuritis");
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (26,'Palindromic Rheumatism");
         db.execSQL("INSERT INTO "+DISEASE_TABLE+" VALUES (27,'Polymyositis");
